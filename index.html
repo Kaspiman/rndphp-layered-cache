@@ -1,0 +1,619 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Слоёное кеширование в Yclients.com</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/white.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/atom.css">
+		<style>
+			:root {
+				--r-heading-color: #3b3b3f;
+				--r-main-color: #3b3b3f;
+			}
+
+			i {
+				font-style: italic;
+			}
+
+			#logo-bottom {
+				position: absolute;
+				right: -75px;
+				bottom: -75px;
+				width: 200px;
+			}
+
+			#logo-top {
+				position: absolute;
+				right: 5%;
+				top: 5%;
+				width: 8%;
+			}
+
+			.reveal .slide-number {
+				background-color: transparent;
+				bottom: 65px;
+				right: 80px;
+				font-size: 30px;
+			}
+
+			.reveal .progress {
+				height: 10px;
+				color: #00bfe2;
+			}
+
+			#final-logo {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-around;
+				align-items: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<img id="logo-top" src="images/top.png">
+			<img id="logo-bottom" src="images/bottom.png">
+			<div class="slides">
+				<section data-background-image="http://example.com/image.png">
+					<h3>Слоёное кеширование</h3>
+
+					<p>Плахотников Владимир из <a href="https://yclients.com">yclients.com</a></p>
+				</section>
+
+				<section>
+					<h3>Кто я и откуда?</h3>
+
+					<p class="fragment">
+						Как управлять состоянием, не привлекая внимания санитаров? <a href="youtu.be/NPRvyIeMkhY">youtu.be/NPRvyIeMkhY</a>
+					</p>
+
+					<p class="fragment">
+						DTO на стероидах <a href="youtu.be/gDEFVplbB4Q">youtu.be/gDEFVplbB4Q</a>
+					</p>
+
+					<p class="fragment">Вставить сюда две фоты с предыдущего митапа</p>
+				</section>
+
+				<section>
+					<h4>Yclients.com</h4>
+
+					<p>онлайн-запись и автоматизация бизнеса</p>
+
+					<hr class="fragment" />
+
+					<ul>
+						<li class="fragment"><i>erp-система</i> по подписке</li>
+						<li class="fragment">37 тысяч клиентов</li>
+						<li class="fragment">11 лет на рынке</li>
+						<li class="fragment">15 млн онлайн-записей ежемесячно</li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>Платформенный разработчик</h4>
+
+					<ul>
+						<li class="fragment">Фреймворк и низкоуровневые компоненты</li>
+						<li class="fragment">Сложный рефакторинг</li>
+						<li class="fragment">Сбор ошибок и метрик</li>
+						<li class="fragment"><b>Быстродействие и стабильность</b></li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>О кодовой базе</h4>
+
+					<ul>
+						<li class="fragment">Большой монолит на PHP</li>
+						<li class="fragment">MVC на компонентах (slim + symfony + ...)</li>
+						<li class="fragment">Админ-панель, внутренний API</li>
+						<li class="fragment">Публичный API, внешние интеграции</li>
+						<li class="fragment">Множество модулей (бизнес-решений)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>О выполнении кода</h4>
+
+					<p>
+						<span class="fragment" data-fragment-index="1">PHP-FPM воркер</span> <span class="fragment" data-fragment-index="2">× <b>12 штук</b></span>
+					</p>
+
+					<p class="fragment" data-fragment-index="4">×</p>
+
+					<p>
+						<span class="fragment">Сервер</span> <span class="fragment">× <b>60 штук</b></span>
+					</p>
+
+					<p class="fragment">
+						≈
+					</p>
+
+					<p class="fragment">
+						Обработка <b>2 000</b> запросов в секунду
+					</p>
+				</section>
+
+				<section>
+					<h4>Так исторически сложилось</h4>
+
+					<p class="fragment">Весь покрытый кешем, абсолютно весь</p>
+
+					<p class="fragment">Быстрый монолит в интернете есть</p>
+
+					<p class="fragment"><a href="https://github.com/symfony/cache/tree/v4.1.12">symfony/cache</a> версии 4.1</p>
+				</section>
+
+				<section>
+					<h4>Быстродействие и стабильность</h4>
+
+					<p class="fragment">New Relic</p>
+
+					<p class="fragment">Время ответа API ≈ 150 мс</p>
+
+					<p class="fragment">Время работы с Redis ≈ до 45 мс</p>
+
+					<p class="fragment">от 16% до 30% общего времени</p>
+
+					<p class="fragment">Сетевая задержка/лаг = тормоза/много ошибок</p>
+				</section>
+
+				<section>
+					<h4>Redis - медленный?</h4>
+
+					<p class="fragment">1 запрос ≈ 0.0005 секунды</p>
+
+					<p class="fragment">Всего запросов ≈ 7.5 тысяч в секунду</p>
+
+					<p class="fragment">(Де)сериализация = CPU и время</p>
+
+					<p class="fragment">Нет, но... да</p>
+				</section>
+
+				<section>
+					<h4>Уменьшить количество запросов</h4>
+
+					<p class="fragment">Не меняя развёртывание проекта</p>
+
+					<p class="fragment">Не переписывая код</p>
+
+					<p class="fragment">Не ломая проект</p>
+				</section>
+
+				<section>
+					<p>
+						Исследуем компонент <a>symfony/cache</a>
+					</p>
+				</section>
+
+				<section>
+					<h3>symfony/cache и стандарты</h3>
+
+					<p class="fragment">
+						<a>Psr</a>\Cache\CacheItemPoolInterface
+					</p>
+
+					<p class="fragment">
+						<a>P</a>HP <a>S</a>tandards <a>R</a>ecommendations №6, №16
+					</p>
+
+					<p class="fragment">
+						Совместимость в обе стороны
+					</p>
+				</section>
+
+				<section data-transition="fade-in slide-out">
+					<h3>symfony/cache и адаптеры</h3>
+
+					<p class="fragment">
+						<span style="color: brown">AdapterInterface</span> extends <a>CacheItemPoolInterface</a>
+					</p>
+
+					<p class="fragment">
+						<a href="#">AbstractAdapter</a> implements <span style="color: brown">AdapterInterface</span>
+					</p>
+
+					<p class="fragment">
+						Шаблон "Адаптер" для разных хранилищ <br>(Redis, PDO, PhpArrayFiles, ...)
+					</p>
+				</section>
+
+				<section>
+					<h3>symfony/cache и Redis</h3>
+
+					<p class="fragment">
+						<span style="color: brown">RedisAdapter</span> extends <a href="#">AbstractAdapter</a>
+					</p>
+
+					<p class="fragment">
+						Инициализация соединения
+					</p>
+
+					<p class="fragment">
+						(Де)сериализация данных <br>(примитивные типы, массивы, объекты)
+					</p>
+				</section>
+
+				<section>
+					<h3>symfony/cache и мы</h3>
+
+					<p class="fragment">
+						<a>Infrastucture</a>\Cache\<a href="#">CacheInterface</a> extends <span style="color: brown">AdapterInterface</span>
+					</p>
+
+					<p class="fragment">
+						Единая точка работы с кешем в приложении
+					</p>
+
+					<p class="fragment">
+						<a>CacheInterface</a> &nbsp;&nbsp; ≈ &nbsp;&nbsp; <span style="color: brown">RedisAdapter</span> &nbsp;&nbsp; ≈ &nbsp;&nbsp; "кеш"&nbsp;&nbsp;≈&nbsp;&nbsp;Redis
+					</p>
+				</section>
+
+				<section>
+					<h4>Мы читаем</h4>
+
+					<pre class="fragment">
+						<code data-trim data-line-numbers="1-3|5-13|17|19-21|23" class="language-php">
+							use Infrastucture\Cache\CacheInterface;
+
+							class BookingService
+							{
+								private CacheInterface $cache;
+
+								// Dependency Injection Container был здесь
+								// Экземпляр RedisAdapter
+								public function __construct(CacheInterface $cache, ...)
+								{
+									$this->cache = $cache;
+									...
+								}
+
+								public function youBookMeAllNightLong()
+								{
+									$cached = $this->cache->getItem('key');
+
+									foreach ($keys as $key) {
+										$cached = $this->cache->getItem($key);
+									}
+
+									$cached = $this->cache->getMultiple(['key1', 'key2', ...]);
+								}
+							}
+						</code>
+					</pre>
+
+				</section>
+
+				<section>
+					<h4>Кешируем кеш</h4>
+
+					<p>Зарождение слоя</p>
+
+					<pre class="fragment">
+						<code data-trim data-line-numbers="3|7-10|12" class="language-php">
+							class BookingService
+							{
+								private array $cachedItems = [];
+
+								public function youBookMeAllNightLong()
+								{
+									foreach ($array as $key) {
+										if (! isset($this->cachedItems[$key])) {
+											$this->cachedItems[$key] = $this->cache->getItem($key);
+										}
+
+										$cached = $this->cachedItems[$key];
+
+										...
+									}
+								}
+							}
+						</code>
+					</pre>
+
+					<p class="fragment">Нежелательное состояние объекта + лишний код</p>
+				</section>
+
+				<section>
+					<p>
+						Исследуем документацию <a>symfony/cache</a>
+					</p>
+				</section>
+
+				<section>
+					<p>
+						Находим <br>
+						Symfony\Component\Cache\Adapter\<a>ArrayAdapter</a>
+					</p>
+
+					<p class="fragment">Runtime-кеш в рамках всего запроса</p>
+
+					<p class="fragment">Нет внутреннего состояния и меньше кода</p>
+
+					<pre class="fragment">
+						<code class="language-php" data-trim data-noescape data-line-numbers="5-12">
+					use Infrastucture\Cache\CacheInterface;
+
+					class BookingService
+					{
+						private CacheInterface $cache;
+
+						// Экземпляр <b>ArrayAdapter</b>
+						public function __construct(CacheInterface $cache, ...)
+						{
+							$this->cache = $cache;
+							...
+						}
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<p>
+						Находим <a>клад</a> Symfony\Component\Cache\Adapter\<a>ChainAdapter</a>
+					</p>
+
+					<pre class="fragment" data-fragment-index="2">
+						<code class="language-php" data-noescape>
+							$chain = [
+								new ArrayAdapter(...),
+								new RedisAdapter(...),
+								...
+							];
+						</code>
+					</pre>
+
+					<pre class="fragment" data-fragment-index="1">
+						<code class="language-php" data-noescape>
+							$cache = new ChainAdapter($chain); // AdapterInterface
+						</code>
+					</pre>
+
+					<pre class="fragment" data-fragment-index="3">
+						<code class="language-php" data-noescape>
+							$cached = $this->cache->getItem('key');
+							$cached = $this->cache->getMultiple(['key1', 'key2']);
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h3>Слоёный кеш</h3>
+
+					<pre class="fragment" data-fragment-index="2">
+						<code class="language-php" data-trim data-noescape data-line-numbers>
+							$cache = new ChainAdapter([
+								new ArrayAdapter<span style="color: blue;">1</span>(...),
+								new ArrayAdapter<span style="color: green;">2</span>(...),
+								new RedisAdapter<span style="color: magenta;">3</span>(...),
+								new RedisAdapter<span style="color: red;">4</span>(...)
+							]);
+						</code>
+					</pre>
+
+					<p class="fragment">
+						Поиск элемента в слоях по порядку
+					</p>
+
+					<p class="fragment">
+						Найденный элемент сохраняется в предыдущих слоях
+					</p>
+
+					<p class="fragment">
+						Добавляется и удаляется из всех слоёв
+					</p>
+				</section>
+
+				<section>
+					<p>
+						Находим<br>
+						Symfony\Component\Cache\Adapter\<a>ApcuAdapter</a>
+					</p>
+
+					<p class="fragment">
+						APCu - это хранилище "ключ-значение" в памяти для PHP
+					</p>
+
+					<p class="fragment">
+						pecl install apcu
+					</p>
+
+					<p class="fragment">
+						<span class="fragment" data-fragment-index="1">PHP-FPM воркер</span> <span class="fragment" data-fragment-index="2">× <b>16 штук</b></span>
+						<br>↓
+						<br>APCu
+					</p>
+				</section>
+
+				<section>
+					<h4>Слоёное кеширование</h4>
+
+					<pre class="fragment">
+						<code class="language-php" data-line-numbers data-trim>
+							$chain = [
+								new ArrayAdapter(...), // в рамках одного запроса
+								new ApcuAdapter (...), // 10 секунд в рамках одного php-fpm
+								new RedisAdapter(...), // сколько нужно в рамках всего проекта
+							];
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h3>Папа может</h3>
+
+					<pre class="fragment" data-fragment-index="2">
+						<code class="language-php" data-trim data-noescape data-line-numbers>
+							$cache = new <a>ChainAdapter</a>([
+								new ArrayAdapter(),
+								new <a>ChainAdapter</a>(
+									[
+										new ApcuAdapter(),
+										new <a>ChainAdapter</a>(
+											[
+												new ApcuAdapter(),
+												new <a>ChainAdapter</a>([new ArrayAdapter()])
+											]
+										)
+									]
+								)
+							]);
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h3>Ничего не изменилось</h3>
+
+					<pre class="fragment">
+						<code data-trim data-line-numbers="5-12" class="language-php" data-noescape="">
+							use Infrastucture\Cache\CacheInterface;
+
+							class BookingService
+							{
+								private CacheInterface $cache;
+
+								// Экземпляр <b>ChainCache</b>
+								public function __construct(CacheInterface $cache, ...)
+								{
+									$this->cache = $cache;
+									...
+								}
+							}
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h3>Результаты</h3>
+
+					<table class="fragment">
+						<tr>
+							<th>Слой</th>
+							<th>Время</th>
+							<th>Количество</th>
+						</tr>
+						<tr class="fragment">
+							<td>Чистый Redis</td>
+							<td>45 мс</td>
+							<td>7.5 тыс/сек</td>
+						</tr>
+						<tr class="fragment">
+							<td>+ ArrayAdapter</td>
+							<td>14 мс</td>
+							<td>1.6 тыс/сек</td>
+						</tr>
+						<tr class="fragment">
+							<td>+ ApcuAdapter</td>
+							<td>7 мс</td>
+							<td>0.8 тыс/сек</td>
+						</tr>
+					</table>
+				</section>
+
+				<section>
+					<h3>Сломалось</h3>
+
+					<p class="fragment">
+						Обновление <a>symfony/cache</a> c v4.1 до 5.3
+					</p>
+
+					<p class="fragment">
+						изменился формат сериализации данных
+					</p>
+
+					<p class="fragment">
+						смешались одинаковые ключи с разными данными
+					</p>
+
+					<pre class="fragment">
+						<code class="language-php" data-noescape>
+							new RedisAdapter($redisClient, 'namespace', ...)
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h3>Сломалось</h3>
+
+					<p>
+						Обновление <a>symfony/cache</a> c v4.1 до 5.3
+					</p>
+
+					<pre class="fragment">
+						<code class="language-php" data-trim data-noescape data-line-numbers="1|3-4|6-7">
+							$cached = $cache->getMultiple(['key1', 'key2', ...]);
+
+							// было много запросов по сети
+							return [$redis-><a>get</a>('key1'), $redis-><a>get</a>('key2'), $redis-><a>get</a>(...)]
+
+							// стал 1 запрос
+							return $redis-><a>mget</a>(key1, key2, ...)
+						</code>
+					</pre>
+
+					<p class="fragment">
+						Много ключей, нехватка памяти, исправление проблемы
+					</p>
+				</section>
+
+				<section>
+					<h3>Сломалось</h3>
+
+					<p class="fragment">
+						Данные в Редисе - не всегда кеш
+					</p>
+
+					<p class="fragment">
+						<a>CacheInterface</a> &nbsp;&nbsp; ≈ &nbsp;&nbsp; <a>ChainAdapter</a> &nbsp;&nbsp; ≈ &nbsp;&nbsp; "кеш"
+						<br>
+						<span class="fragment"><span style="color: red;">≠</span> &nbsp;&nbsp; "бизнес-данные"</span>
+					</p>
+
+					<p class="fragment">
+						сломались счётчики
+					</p>
+				</section>
+
+				<section>
+					<h3>Работает</h3>
+
+					<div id="final-logo">
+						<img src="images/logo.svg" width="30%"/>
+						<div><h1>+</h1></div>
+						<img src="images/header-logo.svg" width="30%"/>
+						<div><h1>=</h1></div>
+						<div style="font-size: 70px">🧡</div>
+					</div>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: true,
+				width: "50%",
+				controls: false,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
