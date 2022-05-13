@@ -54,6 +54,10 @@
 				justify-content: space-around;
 				align-items: center;
 			}
+
+			.reveal table th, .reveal table td {
+				padding: 0.7em 0.7em 0.7em 0.7em;
+			}
 		</style>
 	</head>
 	<body>
@@ -64,7 +68,7 @@
 				<section data-background-image="http://example.com/image.png">
 					<h3>Слоёное кеширование</h3>
 
-					<p>Плахотников Владимир из <a href="https://yclients.com">yclients.com</a></p>
+					<p>Плахотников Владимир из <a href="https://yclients.com" target="yclients.com">yclients.com</a></p>
 				</section>
 
 				<section>
@@ -82,28 +86,18 @@
 				</section>
 
 				<section>
-					<h4>Yclients.com</h4>
+					<p><img src="images/logo.svg" width="30%"/></p>
 
 					<p>онлайн-запись и автоматизация бизнеса</p>
 
 					<hr class="fragment" />
 
 					<ul>
-						<li class="fragment"><i>erp-система</i> по подписке</li>
+						<li class="fragment">erp-система по подписке</li>
 						<li class="fragment">37 тысяч клиентов</li>
 						<li class="fragment">11 лет на рынке</li>
 						<li class="fragment">15 млн онлайн-записей ежемесячно</li>
-					</ul>
-				</section>
-
-				<section>
-					<h4>Платформенный разработчик</h4>
-
-					<ul>
-						<li class="fragment">Фреймворк и низкоуровневые компоненты</li>
-						<li class="fragment">Сложный рефакторинг</li>
-						<li class="fragment">Сбор ошибок и метрик</li>
-						<li class="fragment"><b>Быстродействие и стабильность</b></li>
+						<li class="fragment">всё и сразу для бизнеса</li>
 					</ul>
 				</section>
 
@@ -119,14 +113,36 @@
 					</ul>
 				</section>
 
+                <section>
+                    <h4>Платформенный разработчик</h4>
+
+                    <ul class="fragment">
+                        <li class="fragment">Фреймворк и низкоуровневые компоненты</li>
+                        <li class="fragment">Сложный рефакторинг</li>
+                        <li class="fragment">Сбор ошибок и метрик</li>
+                        <li class="fragment">Контроль качества кода</li>
+                        <li class="fragment"><b>Быстродействие и стабильность</b></li>
+                    </ul>
+                </section>
+
+				<section>
+					<h4>Всё сложно, но для вас - просто</h4>
+				</section>
+
 				<section>
 					<h4>О выполнении кода</h4>
 
-					<p>
-						<span class="fragment" data-fragment-index="1">PHP-FPM воркер</span> <span class="fragment" data-fragment-index="2">× <b>12 штук</b></span>
+					<p class="fragment">
+						PHP-FPM
 					</p>
 
-					<p class="fragment" data-fragment-index="4">×</p>
+					<p class="fragment">×</p>
+
+					<p class="fragment">
+						Воркеры × <b>12 штук</b>
+					</p>
+
+					<p class="fragment">×</p>
 
 					<p>
 						<span class="fragment">Сервер</span> <span class="fragment">× <b>60 штук</b></span>
@@ -137,32 +153,41 @@
 					</p>
 
 					<p class="fragment">
-						Обработка <b>2 000</b> запросов в секунду
+						<b>2 000</b> запросов в секунду
 					</p>
-				</section>
-
-				<section>
-					<h4>Так исторически сложилось</h4>
-
-					<p class="fragment">Весь покрытый кешем, абсолютно весь</p>
-
-					<p class="fragment">Быстрый монолит в интернете есть</p>
-
-					<p class="fragment"><a href="https://github.com/symfony/cache/tree/v4.1.12">symfony/cache</a> версии 4.1</p>
 				</section>
 
 				<section>
 					<h4>Быстродействие и стабильность</h4>
 
-					<p class="fragment">New Relic</p>
+					<p class="fragment">New Relic - для контроля</p>
 
-					<p class="fragment">Время ответа API ≈ 150 мс</p>
+					<p class="fragment">Среднее время ответа ≈ <a>140 миллисекунд</a></p>
 
-					<p class="fragment">Время работы с Redis ≈ до 45 мс</p>
+					<p class="fragment">Поток запросов в кеш (Redis) ≈ <a>7.5 тысяч в секунду</a></p>
 
-					<p class="fragment">от 16% до 30% общего времени</p>
+					<p class="fragment">Время на кеш ≈ <a>до 35 миллисекунд</a></p>
+				</section>
 
-					<p class="fragment">Сетевая задержка/лаг = тормоза/много ошибок</p>
+				<section>
+					<h4>Мы кешируем в...</h4>
+
+					<p class="fragment">сервисах</p>
+
+					<p class="fragment">моделях</p>
+
+					<p class="fragment">репозиториях</p>
+
+					<p class="fragment">ещё где-то</p>
+
+				</section>
+
+				<section>
+					<h4>Так исторически сложилось</h4>
+
+					<p>Весь покрытый кешем, абсолютно весь</p>
+
+					<p>Быстрый монолит в интернете есть</p>
 				</section>
 
 				<section>
@@ -170,11 +195,13 @@
 
 					<p class="fragment">1 запрос ≈ 0.0005 секунды</p>
 
-					<p class="fragment">Всего запросов ≈ 7.5 тысяч в секунду</p>
+					<p class="fragment">(Де)сериализация = ресурсы + время</p>
 
-					<p class="fragment">(Де)сериализация = CPU и время</p>
+					<p class="fragment">Запросы по сети = время</p>
 
-					<p class="fragment">Нет, но... да</p>
+					<p class="fragment">Сетевая задержка/лаг = тормоза/много ошибок</p>
+
+					<p class="fragment">Быстро, но не быстро, поэтому ...</p>
 				</section>
 
 				<section>
@@ -189,7 +216,7 @@
 
 				<section>
 					<p>
-						Исследуем компонент <a>symfony/cache</a>
+						Знакомимся с <a>symfony/cache</a>
 					</p>
 				</section>
 
@@ -205,11 +232,11 @@
 					</p>
 
 					<p class="fragment">
-						Совместимость в обе стороны
+						Универсальность и заменяемость
 					</p>
 				</section>
 
-				<section data-transition="fade-in slide-out">
+				<section>
 					<h3>symfony/cache и адаптеры</h3>
 
 					<p class="fragment">
@@ -233,7 +260,7 @@
 					</p>
 
 					<p class="fragment">
-						Инициализация соединения
+						Инициализация соединения, передача параметров
 					</p>
 
 					<p class="fragment">
@@ -249,19 +276,23 @@
 					</p>
 
 					<p class="fragment">
-						Единая точка работы с кешем в приложении
+						<a>CacheInterface</a> &nbsp;&nbsp; = &nbsp;&nbsp; <span style="color: brown">RedisAdapter</span> &nbsp;&nbsp; = &nbsp;&nbsp; "кеш"&nbsp;&nbsp;=&nbsp;&nbsp;Redis
 					</p>
 
 					<p class="fragment">
-						<a>CacheInterface</a> &nbsp;&nbsp; ≈ &nbsp;&nbsp; <span style="color: brown">RedisAdapter</span> &nbsp;&nbsp; ≈ &nbsp;&nbsp; "кеш"&nbsp;&nbsp;≈&nbsp;&nbsp;Redis
+						Управление через Dependency Injection контейнер
+					</p>
+
+					<p class="fragment">
+						Единая точка работы с кешем во всём приложении
 					</p>
 				</section>
 
 				<section>
-					<h4>Мы читаем</h4>
+					<h4>Пример</h4>
 
 					<pre class="fragment">
-						<code data-trim data-line-numbers="1-3|5-13|17|19-21|23" class="language-php">
+						<code data-trim data-line-numbers="1-3|5-12|14-16|18-20|22" class="language-php">
 							use Infrastucture\Cache\CacheInterface;
 
 							class BookingService
@@ -269,7 +300,6 @@
 								private CacheInterface $cache;
 
 								// Dependency Injection Container был здесь
-								// Экземпляр RedisAdapter
 								public function __construct(CacheInterface $cache, ...)
 								{
 									$this->cache = $cache;
@@ -293,9 +323,7 @@
 				</section>
 
 				<section>
-					<h4>Кешируем кеш</h4>
-
-					<p>Зарождение слоя</p>
+					<h4>Зарождение слоя</h4>
 
 					<pre class="fragment">
 						<code data-trim data-line-numbers="3|7-10|12" class="language-php">
@@ -364,51 +392,100 @@
 					<pre class="fragment" data-fragment-index="2">
 						<code class="language-php" data-noescape>
 							$chain = [
-								new ArrayAdapter(...),
-								new RedisAdapter(...),
-								...
+								new ArrayAdapter(...), // слой 1
+								new RedisAdapter(...)  // слой 2
+								...                    // слой N
 							];
 						</code>
 					</pre>
 
 					<pre class="fragment" data-fragment-index="1">
 						<code class="language-php" data-noescape>
-							$cache = new ChainAdapter($chain); // AdapterInterface
+							$cache = new ChainAdapter($chain);
 						</code>
 					</pre>
 
 					<pre class="fragment" data-fragment-index="3">
 						<code class="language-php" data-noescape>
 							$cached = $this->cache->getItem('key');
-							$cached = $this->cache->getMultiple(['key1', 'key2']);
 						</code>
 					</pre>
 				</section>
 
-				<section>
+				<section data-transition="fade-out">
 					<h3>Слоёный кеш</h3>
 
-					<pre class="fragment" data-fragment-index="2">
-						<code class="language-php" data-trim data-noescape data-line-numbers>
+					<pre>
+						<code class="language-php" data-noescape>
 							$cache = new ChainAdapter([
-								new ArrayAdapter<span style="color: blue;">1</span>(...),
-								new ArrayAdapter<span style="color: green;">2</span>(...),
-								new RedisAdapter<span style="color: magenta;">3</span>(...),
-								new RedisAdapter<span style="color: red;">4</span>(...)
+								new ArrayAdapter<span style="color: blue;">1</span>(...), 	<span style="color: blue;">↓ слой 1 ↓ </span>
+								new ArrayAdapter<span style="color: green;">2</span>(...), 	<span style="color: green;">↓ слой 2 ↓</span>
+								new RedisAdapter<span style="color: red;">3</span>(...), 	<span style="color: red;">↓ слой 3 ↓</span>
 							]);
 						</code>
 					</pre>
 
+					<pre class="fragment">
+						<code class="language-php" data-noescape>
+						$cache-><a>save</a>($key, $value);
+						$cache-><a>delete</a>($key);
+					</code>
+					</pre>
+
 					<p class="fragment">
-						Поиск элемента в слоях по порядку
+						Последовательно добавляется и удаляется из всех слоёв
+					</p>
+				</section>
+
+				<section data-transition="fade-in fade-out">
+					<h3>Слоёный кеш</h3>
+
+					<pre>
+						<code class="language-php" data-noescape>
+							$cache = new ChainAdapter([
+								new ArrayAdapter<span style="color: blue;">1</span>(...), 	<span style="color: blue;">↓ слой 1 ↓ </span>
+								new ArrayAdapter<span style="color: green;">2</span>(...), 	<span style="color: green;">↓ слой 2 ↓</span>
+								new RedisAdapter<span style="color: red;">3</span>(...), 	<span style="color: red;">↓ слой 3 ↓</span>
+							]);
+						</code>
+					</pre>
+
+					<pre class="fragment">
+						<code class="language-php" data-noescape>
+							$cache-><a>hasItem</a>($key);
+						</code>
+					</pre>
+
+					<p class="fragment">
+						Последовательно перебирает слои
+					</p>
+				</section>
+
+				<section data-transition="fade-in fade-out">
+					<h3>Слоёный кеш</h3>
+
+					<pre class="fragment" data-fragment-index="2">
+						<code class="language-php" data-noescape>
+							$cache = new ChainAdapter([
+								new ArrayAdapter<span style="color: blue;">1</span>(...), 	<span style="color: blue;">↓ слой 1 ↑ </span>
+								new ArrayAdapter<span style="color: green;">2</span>(...), 	<span style="color: green;">↓ слой 2 ↑</span>
+								new RedisAdapter<span style="color: red;">3</span>(...), 	<span style="color: red;">↓ слой 3 ↑</span>
+							]);
+						</code>
+					</pre>
+
+					<pre class="fragment">
+						<code class="language-php" data-noescape>
+							$cache-><a>getItem</a>($key);
+						</code>
+					</pre>
+
+					<p class="fragment">
+						Последовательно перебирает слои, находит
 					</p>
 
 					<p class="fragment">
-						Найденный элемент сохраняется в предыдущих слоях
-					</p>
-
-					<p class="fragment">
-						Добавляется и удаляется из всех слоёв
+						Сохраняет в предыдущих слоях
 					</p>
 				</section>
 
@@ -427,7 +504,7 @@
 					</p>
 
 					<p class="fragment">
-						<span class="fragment" data-fragment-index="1">PHP-FPM воркер</span> <span class="fragment" data-fragment-index="2">× <b>16 штук</b></span>
+						<span class="fragment" data-fragment-index="1">PHP-FPM воркеры</span> <span class="fragment" data-fragment-index="2">× <b>16 штук</b></span>
 						<br>↓
 						<br>APCu
 					</p>
@@ -437,18 +514,26 @@
 					<h4>Слоёное кеширование</h4>
 
 					<pre class="fragment">
-						<code class="language-php" data-line-numbers data-trim>
-							$chain = [
-								new ArrayAdapter(...), // в рамках одного запроса
-								new ApcuAdapter (...), // 10 секунд в рамках одного php-fpm
-								new RedisAdapter(...), // сколько нужно в рамках всего проекта
-							];
+						<code class="language-php" data-noescape>
+								$chain = [new ArrayAdapter(...)];
+
+								if (ApcuAdapter::<a>isSupported()</a>) {
+									$chain[] = new ApcuAdapter(...);
+								}
+
+								$chain[] = new RedisAdapter(...);
+
+								$cache = new ChainCache($chain);
 						</code>
 					</pre>
+
+					<p class="fragment">
+						Гибко
+					</p>
 				</section>
 
 				<section>
-					<h3>Папа может</h3>
+					<h3>Symfony может</h3>
 
 					<pre class="fragment" data-fragment-index="2">
 						<code class="language-php" data-trim data-noescape data-line-numbers>
@@ -459,8 +544,8 @@
 										new ApcuAdapter(),
 										new <a>ChainAdapter</a>(
 											[
-												new ApcuAdapter(),
-												new <a>ChainAdapter</a>([new ArrayAdapter()])
+												new <a>ChainAdapter</a>([new ArrayAdapter()]),
+												new RedisAdapter()
 											]
 										)
 									]
@@ -468,13 +553,15 @@
 							]);
 						</code>
 					</pre>
+
+                    <p class="fragment">! Не повторяйте этого дома !</p>
 				</section>
 
 				<section>
-					<h3>Ничего не изменилось</h3>
+					<h3>Всё по-старому</h3>
 
 					<pre class="fragment">
-						<code data-trim data-line-numbers="5-12" class="language-php" data-noescape="">
+						<code data-trim data-line-numbers="5-12" class="language-php" data-noescape>
 							use Infrastucture\Cache\CacheInterface;
 
 							class BookingService
@@ -495,28 +582,34 @@
 				<section>
 					<h3>Результаты</h3>
 
-					<table class="fragment">
-						<tr>
-							<th>Слой</th>
-							<th>Время</th>
-							<th>Количество</th>
-						</tr>
+					<table>
 						<tr class="fragment">
-							<td>Чистый Redis</td>
-							<td>45 мс</td>
-							<td>7.5 тыс/сек</td>
+							<th></th>
+							<th>Было</th>
+							<th>Стало</th>
 						</tr>
+
 						<tr class="fragment">
-							<td>+ ArrayAdapter</td>
-							<td>14 мс</td>
-							<td>1.6 тыс/сек</td>
+							<td>Поток запросов Redis</td>
+							<td><span style="color: #ee1800">7.5 тыс/сек</span></td>
+							<td><a>0.8 тыс/сек</a></td>
 						</tr>
+
 						<tr class="fragment">
-							<td>+ ApcuAdapter</td>
-							<td>7 мс</td>
-							<td>0.8 тыс/сек</td>
+							<td>Время на Redis</td>
+							<td><span style="color: #ee1800">≈ 40 мс</span></td>
+							<td><a>≈ 10 мс</a></td>
 						</tr>
+
+						<tr class="fragment">
+							<td>Общее время API</td>
+							<td><span style="color: #ee1800">≈ 140 мс</span></td>
+							<td><a>≈ 110 мс</a></td>
+						</tr>
+
 					</table>
+
+					<p class="fragment">Меньше запросов = меньше ошибок</p>
 				</section>
 
 				<section>
@@ -579,9 +672,19 @@
 					</p>
 
 					<p class="fragment">
-						сломались счётчики
+						сломались счётчики попыток
+					</p>
+
+					<p class="fragment">
+						понять каждому
 					</p>
 				</section>
+
+                <section>
+                    <h4>Платформенный разработчик</h4>
+
+                    <p>Это я 😎</p>
+                </section>
 
 				<section>
 					<h3>Работает</h3>
@@ -593,6 +696,8 @@
 						<div><h1>=</h1></div>
 						<div style="font-size: 70px">🧡</div>
 					</div>
+
+					<img src="images/qr-code.png" width="15%"/>
 				</section>
 			</div>
 		</div>
