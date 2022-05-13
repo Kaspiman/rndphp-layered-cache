@@ -606,7 +606,6 @@
 							<td><span style="color: #ee1800">≈ 140 мс</span></td>
 							<td><a>≈ 110 мс</a></td>
 						</tr>
-
 					</table>
 
 					<p class="fragment">Меньше запросов = меньше ошибок</p>
@@ -649,7 +648,7 @@
 							return [$redis-><a>get</a>('key1'), $redis-><a>get</a>('key2'), $redis-><a>get</a>(...)]
 
 							// стал 1 запрос
-							return $redis-><a>mget</a>(key1, key2, ...)
+							return $redis-><a>mget</a>('key1', 'key2', ...)
 						</code>
 					</pre>
 
@@ -674,16 +673,26 @@
 					<p class="fragment">
 						сломались счётчики попыток
 					</p>
+				</section>
 
-					<p class="fragment">
-						понять каждому
+				<section>
+					<h3>Понять</h3>
+
+					<p>
+						Кеш - проблема
+					</p>
+
+					<p>
+						<a>N</a> слоёв кеша - <a>N</a> проблем
 					</p>
 				</section>
 
                 <section>
                     <h4>Платформенный разработчик</h4>
 
-                    <p>Это я 😎</p>
+                    <p>Это я</p>
+
+					<p>😎</p>
                 </section>
 
 				<section>
@@ -696,6 +705,8 @@
 						<div><h1>=</h1></div>
 						<div style="font-size: 70px">🧡</div>
 					</div>
+
+					<br />
 
 					<img src="images/qr-code.png" width="15%"/>
 				</section>
