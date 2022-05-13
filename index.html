@@ -68,21 +68,21 @@
 				<section data-background-image="http://example.com/image.png">
 					<h3>Слоёное кеширование</h3>
 
-					<p>Плахотников Владимир из <a href="https://yclients.com" target="yclients.com">yclients.com</a></p>
+					<p>Владимир Плахотников из <a href="https://yclients.com" target="yclients.com">yclients.com</a></p>
 				</section>
 
 				<section>
 					<h3>Кто я и откуда?</h3>
 
 					<p class="fragment">
-						Как управлять состоянием, не привлекая внимания санитаров? <a href="youtu.be/NPRvyIeMkhY">youtu.be/NPRvyIeMkhY</a>
+						Как управлять состоянием, не привлекая внимания санитаров? <a href="https://youtu.be/NPRvyIeMkhY" target="yt1">youtu.be/NPRvyIeMkhY</a>
 					</p>
 
 					<p class="fragment">
-						DTO на стероидах <a href="youtu.be/gDEFVplbB4Q">youtu.be/gDEFVplbB4Q</a>
+						DTO на стероидах <a href="https://youtu.be/gDEFVplbB4Q" target="yt2">youtu.be/gDEFVplbB4Q</a>
 					</p>
 
-					 <img src="images/me.png" width="25%"/>
+					 <img src="images/me.png" width="25%" />
 				</section>
 
 				<section>
@@ -216,7 +216,7 @@
 
 				<section>
 					<p>
-						Знакомимся с <a>symfony/cache</a>
+						Знакомимся с <a href="https://symfony.com/doc/current/components/cache.html" target="symfony-cache">symfony/cache</a>
 					</p>
 				</section>
 
@@ -284,7 +284,7 @@
 					</p>
 
 					<p class="fragment">
-						Единая точка работы с кешем во всём приложении
+						Единая точка входа
 					</p>
 				</section>
 
@@ -352,19 +352,15 @@
 
 				<section>
 					<p>
-						Исследуем документацию <a>symfony/cache</a>
+						Исследуем документацию <a href="https://symfony.com/doc/current/components/cache.html" target="symfony-cache">symfony/cache</a>
 					</p>
 				</section>
 
 				<section>
 					<p>
 						Находим <br>
-						Symfony\Component\Cache\Adapter\<a>ArrayAdapter</a>
+						Symfony\Component\Cache\Adapter\<a href="https://symfony.com/doc/current/components/cache/adapters/array_cache_adapter.html" target="cache-array">ArrayAdapter</a>
 					</p>
-
-					<p class="fragment">Runtime-кеш в рамках всего запроса</p>
-
-					<p class="fragment">Нет внутреннего состояния и меньше кода</p>
 
 					<pre class="fragment">
 						<code class="language-php" data-trim data-noescape data-line-numbers="5-12">
@@ -382,11 +378,15 @@
 						}
 						</code>
 					</pre>
+
+					<p class="fragment">Runtime-кеш в рамках всего запроса</p>
+
+					<p class="fragment">Нет внутреннего состояния и меньше кода</p>
 				</section>
 
 				<section>
 					<p>
-						Находим <a>клад</a> Symfony\Component\Cache\Adapter\<a>ChainAdapter</a>
+						Находим <a>клад</a> Symfony\Component\Cache\Adapter\<a href="https://symfony.com/doc/current/components/cache/adapters/chain_adapter.html" target="cache-chain">ChainAdapter</a>
 					</p>
 
 					<pre class="fragment" data-fragment-index="2">
@@ -492,7 +492,7 @@
 				<section>
 					<p>
 						Находим<br>
-						Symfony\Component\Cache\Adapter\<a>ApcuAdapter</a>
+						Symfony\Component\Cache\Adapter\<a href="https://symfony.com/doc/current/components/cache/adapters/apcu_adapter.html" target="cache-apcu">ApcuAdapter</a>
 					</p>
 
 					<p class="fragment">
@@ -582,33 +582,40 @@
 				<section>
 					<h3>Результаты</h3>
 
-					<table>
+					<table class="r-fit-text">
+
 						<tr class="fragment">
 							<th></th>
-							<th>Было</th>
-							<th>Стало</th>
+							<th>Без слоёв</th>
+							<th>+ ArrayAdapter</th>
+							<th>+ ApcuAdapter</th>
+							<td><b>Выигрыш</b></td>
 						</tr>
 
 						<tr class="fragment">
 							<td>Поток запросов Redis</td>
 							<td><span style="color: #ee1800">7.5 тыс/сек</span></td>
+							<td><a>1.6 тыс/сек</a></td>
 							<td><a>0.8 тыс/сек</a></td>
+							<td><a>≈ 90%</a></td>
 						</tr>
 
 						<tr class="fragment">
 							<td>Время на Redis</td>
 							<td><span style="color: #ee1800">≈ 40 мс</span></td>
+							<td><a>≈ 20 мс</a></td>
 							<td><a>≈ 10 мс</a></td>
+							<td><a>≈ 75%</a></td>
 						</tr>
 
 						<tr class="fragment">
 							<td>Общее время API</td>
 							<td><span style="color: #ee1800">≈ 140 мс</span></td>
+							<td><a>≈ 120 мс</a></td>
 							<td><a>≈ 110 мс</a></td>
+							<td><a>≈ 20 %</a></td>
 						</tr>
 					</table>
-
-					<p class="fragment">Меньше запросов = меньше ошибок</p>
 				</section>
 
 				<section>
