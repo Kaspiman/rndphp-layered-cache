@@ -433,7 +433,7 @@
 					</pre>
 
 					<p class="fragment">
-						Последовательно добавляется и удаляется из всех слоёв
+						Последовательно для всех слоёв
 					</p>
 				</section>
 
@@ -457,7 +457,7 @@
 					</pre>
 
 					<p class="fragment">
-						Последовательно перебирает слои
+						Последовательно до первого найденного
 					</p>
 				</section>
 
@@ -515,15 +515,19 @@
 
 					<pre class="fragment">
 						<code class="language-php" data-noescape>
-								$chain = [new ArrayAdapter(...)];
+					$container->share(<a>CacheInterface</a>::class, function() {
 
-								if (ApcuAdapter::<a>isSupported()</a>) {
-									$chain[] = new ApcuAdapter(...);
-								}
+							$chain = [new ArrayAdapter(...)];
 
-								$chain[] = new RedisAdapter(...);
+							if (ApcuAdapter::<a>isSupported()</a>) {
+								$chain[] = new ApcuAdapter(...);
+							}
 
-								$cache = new ChainCache($chain);
+							$chain[] = new RedisAdapter(...);
+
+							return new ChainCache($chain);
+
+					});
 						</code>
 					</pre>
 
@@ -691,6 +695,10 @@
 
 					<p>
 						<a>N</a> слоёв кеша - <a>N</a> проблем
+					</p>
+
+					<p>
+						Каждому модулю - свой кеш
 					</p>
 				</section>
 
